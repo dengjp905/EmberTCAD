@@ -1,0 +1,39 @@
+name: Bug report
+description: 报告可复现的 EmberTCAD 问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: 请勿提交 API Key、许可证信息、专有手册或未经授权的工程文件。
+  - type: input
+    id: embertcad-version
+    attributes:
+      label: EmberTCAD 版本
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 系统与 Sentaurus 版本
+      placeholder: Rocky Linux 8.10 / Sentaurus X-2025.06
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏后的错误信息或日志
+      render: shell

@@ -1,0 +1,47 @@
+name: Native core
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-safety-and-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile Python sources
+        run: >-
+          python -m py_compile
+          connector/aitcad_connector.py
+          linux/swb-companion/native_assistant.py
+          linux/swb-companion/native_assistant_gtk3.py
+          linux/swb-companion/ai_agent.py
+          linux/swb-companion/swb_live.py
+          linux/swb-companion/research_service.py
+
+      - name: Run native core tests
+        run: |
+          python tests/generated-project.test.py
+          python tests/connector-safety.test.py
+          python tests/research-service.test.py
+          python tests/ai-agent-routing.test.py
+          python tests/runtime-settings.test.py
+          python tests/unbounded-execution.test.py
+          python tests/run-cancellation.test.py
+          python tests/history-management.test.py
+
+      - name: Check launch and install scripts
+        run: |
+          bash -n linux/swb-companion/install.sh
+          bash -n linux/swb-companion/embertcad
+          bash -n linux/swb-companion/remove-swb-class-hook.sh
+          bash tests/install-compatibility.test.sh
+          bash tests/install-fresh-home.test.sh
+          python tests/release-readiness.test.py

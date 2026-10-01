@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=EmberTCAD
+GenericName=Open-source AI Assistant for Sentaurus TCAD
+Comment=Understand, modify, run, and verify Sentaurus TCAD projects with AI
+Exec=__EMBERTCAD_LAUNCHER__
+Icon=__EMBERTCAD_ICON__
+Terminal=false
+Categories=Development;Science;Engineering;
+StartupNotify=true
+StartupWMClass=embertcad
