@@ -45,3 +45,28 @@ jobs:
           bash tests/install-compatibility.test.sh
           bash tests/install-fresh-home.test.sh
           python tests/release-readiness.test.py
+
+  rocky8-python36:
+    runs-on: ubuntu-latest
+    container: rockylinux:8
+    steps:
+      - name: Install Rocky 8 test dependencies
+        run: dnf -y install git python3
+      - uses: actions/checkout@v4
+      - name: Confirm system Python
+        run: python3 --version
+      - name: Run Python 3.6 compatibility tests
+        run: |
+          python3 tests/release-readiness.test.py
+          python3 tests/generated-project.test.py
+          python3 tests/connector-safety.test.py
+          python3 tests/research-service.test.py
+          python3 tests/ai-agent-routing.test.py
+          python3 tests/runtime-settings.test.py
+          python3 tests/unbounded-execution.test.py
+          python3 tests/run-cancellation.test.py
+          python3 tests/history-management.test.py
+      - name: Run Rocky 8 installer tests
+        run: |
+          bash tests/install-compatibility.test.sh
+          bash tests/install-fresh-home.test.sh

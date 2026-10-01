@@ -117,7 +117,7 @@ class GeneratedProjectWorkflowTest(unittest.TestCase):
             result = ai_agent.plan_generated_project({"taskId": self.task["taskId"]})
         self.assertEqual(result["blueprint"]["toolChain"], chain)
         self.assertEqual(api_mock.call_count, 3)
-        repair_request = __import__("json").loads(api_mock.call_args_list[2].args[1][1]["content"])
+        repair_request = __import__("json").loads(api_mock.call_args_list[2][0][1][1]["content"])
         self.assertEqual(repair_request["requiredToolChain"], chain)
 
     def test_generation_repairs_wrong_sde_build_mesh_signature(self):

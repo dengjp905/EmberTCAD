@@ -76,7 +76,7 @@ class ModelResearchRoutingTests(unittest.TestCase):
                   "apiStyle": "anthropic_messages", "reasoningEffort": "auto"}
         with mock.patch.object(ai_agent.urllib.request, "urlopen", return_value=handle) as opened:
             payload, message = ai_agent.api_call(config, [{"role": "user", "content": "读取"}], ai_agent.TOOLS[:1])
-        request = opened.call_args.args[0]
+        request = opened.call_args[0][0]
         self.assertEqual(request.full_url, "https://api.anthropic.com/v1/messages")
         self.assertEqual(payload["model"], "claude-test")
         self.assertEqual(message["tool_calls"][0]["function"]["name"], "get_project_state")
@@ -90,8 +90,9 @@ class ModelResearchRoutingTests(unittest.TestCase):
                   "apiStyle": "chat_completions", "reasoningEffort": "standard"}
         with mock.patch.object(ai_agent.urllib.request, "urlopen", return_value=handle) as opened:
             _payload, message = ai_agent.api_call(config, [{"role": "user", "content": "test"}])
-        sent = json.loads(opened.call_args.args[0].data.decode("utf-8"))
-        self.assertEqual(opened.call_args.args[0].full_url, "https://compatible.example/v1/chat/completions")
+        request = opened.call_args[0][0]
+        sent = json.loads(request.data.decode("utf-8"))
+        self.assertEqual(request.full_url, "https://compatible.example/v1/chat/completions")
         self.assertIn("简体中文", sent["messages"][0]["content"])
         self.assertEqual(message["content"], "OK")
 
@@ -114,7 +115,7 @@ class ModelResearchRoutingTests(unittest.TestCase):
         with mock.patch.object(ai_agent.urllib.request, "urlopen", return_value=handle) as opened:
             payload, message = ai_agent.api_call(config, [{"role": "user", "content": "读取工程"}],
                                                  ai_agent.TOOLS[:1])
-        request = opened.call_args.args[0]
+        request = opened.call_args[0][0]
         sent = json.loads(request.data.decode("utf-8"))
         self.assertEqual(request.full_url, "https://api.openai.com/v1/responses")
         self.assertEqual(sent["model"], "gpt-6.1-sol")

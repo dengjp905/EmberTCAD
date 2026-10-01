@@ -99,6 +99,7 @@ flowchart LR
 - RHEL 兼容 Linux 图形桌面；当前主要测试 CentOS 7 与 Rocky Linux 8.10。
 - 用户已经合法安装 Sentaurus TCAD / SWB，并可在当前账户下运行。
 - Python、GTK3 / PyGObject 和基础系统工具；推荐先运行 `install.sh --check`，由脚本报告缺失项。
+- 使用 Git 克隆仓库，或使用系统自带的 `curl` 与 `tar` 下载发布源码包。
 - 一个可用的大模型 API。Sentaurus 与大模型服务均不包含在本项目中。
 
 先进行只读环境检查：
@@ -106,6 +107,14 @@ flowchart LR
 ```bash
 git clone --depth 1 https://github.com/dengjp905/EmberTCAD.git
 cd EmberTCAD
+bash ./linux/swb-companion/install.sh --check
+```
+
+Rocky 等最小化安装没有预装 Git 时，可以直接下载公开版本源码包：
+
+```bash
+curl -fL https://github.com/dengjp905/EmberTCAD/archive/refs/tags/v0.1.0.tar.gz | tar -xz
+cd EmberTCAD-0.1.0
 bash ./linux/swb-companion/install.sh --check
 ```
 
