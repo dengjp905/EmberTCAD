@@ -16,7 +16,9 @@ for tool in swb gtclsh gsub; do
   cp "$SCRATCH/bin/fake-python" "$SCRATCH/sentaurus/bin/$tool"
 done
 
-HOME="$SCRATCH/home" bash "$INSTALLER" \
+env -u XDG_CONFIG_HOME -u XDG_DATA_HOME \
+  -u AITCAD_APP_DIR -u AITCAD_BIN_DIR -u AITCAD_DATA_DIR \
+  HOME="$SCRATCH/home" bash "$INSTALLER" \
   --project-root "$SCRATCH/home/new-parent/STDB" \
   --sentaurus-root "$SCRATCH/sentaurus" \
   --gtk-python "$SCRATCH/bin/fake-python" \
